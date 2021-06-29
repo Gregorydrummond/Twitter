@@ -56,24 +56,6 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setAdapter(adapter);
 
         populateHomeTimeLine();
-
-        //Set TOOLBAR
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Twitter");
-        toolbar.inflateMenu(R.menu.login);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.action_logout) {
-                    // forget who's logged in
-                    client.clearAccessToken();
-                    // navigate backwards to Login screen
-                    finish();
-                }
-                return false;
-            }
-        });
-
     }
 
     private void populateHomeTimeLine() {
@@ -98,19 +80,31 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.login, menu);
-//        //Get menu item
-//        MenuItem logoutItem = menu.findItem(R.id.action_logout);
-//        final MenuView logoutView = (MenuView) MenuItemCompat.getActionProvider(logoutItem);
-//
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    public void onClick(View view) {
-//        finish();
-//    }
+    //Log out button
+    public void onLogoutButtonClick(View view) {
+        //forget who's logged in
+        client.clearAccessToken();
+
+        // navigate backwards to Login screen
+        finish();
+    }
+
+    //Inflate menu for action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    //Item in menu clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.compose) {
+            //Compose icon has been selected
+            Log.i(TAG, "Compose item clicked");
+        }
+        return true;
+    }
 }
