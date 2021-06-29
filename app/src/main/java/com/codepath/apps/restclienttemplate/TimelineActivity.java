@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
@@ -22,6 +23,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ import okhttp3.Headers;
 public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
+    public static final int REQUEST_CODE = 20;
 
     TwitterClient client;
     RecyclerView rvTweets;
@@ -99,7 +102,7 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-    //Item in menu clicked
+    //Item in menu clicked. Start Compose Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.compose) {
@@ -108,8 +111,33 @@ public class TimelineActivity extends AppCompatActivity {
 
             //Go to Compose Activity
             Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Timeline Activity gets back data from startActivityForResult call
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        //Log.d(TAG, "Came back");
+        //Returned data from composing activity
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            //Get data from the intent (tweet)
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+
+            //Log.d(TAG, "Tweet: " + tweet.body);
+
+            //Update the RV with the tweet
+            //Modify data source of tweets
+            tweets.add(0, tweet);
+
+            //Update adapter
+            adapter.notifyItemInserted(0);
+
+            //Scroll back to the top of the RV
+            rvTweets.smoothScrollToPosition(0);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
