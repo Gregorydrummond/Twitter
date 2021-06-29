@@ -8,6 +8,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,7 +104,11 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.compose) {
             //Compose icon has been selected
-            Log.i(TAG, "Compose item clicked");
+            //Log.i(TAG, "Compose item clicked");
+
+            //Go to Compose Activity
+            Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+            startActivity(intent);
         }
         return true;
     }
