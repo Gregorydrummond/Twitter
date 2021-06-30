@@ -8,7 +8,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,18 +36,39 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
     public static final int REQUEST_CODE = 20;
+    public SwipeRefreshLayout swipeContainer;
 
     TwitterClient client;
     RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    Toolbar toolbar;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        //Swipe Refresh
+        //Swipe container view
+        swipeContainer = findViewById(R.id.swipeContainer);
+
+        //Set refresh listener
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchTimelineAsync(0);
+            }
+        });
+
+        //Configure the refreshing colors
+        swipeContainer.setColorSchemeColors(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        //Twitter client
         client = TwitterApp.getRestClient(this);
 
         //Find recycler view
@@ -60,6 +83,36 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setAdapter(adapter);
 
         populateHomeTimeLine();
+    }
+
+    public void fetchTimelineAsync(int page) {
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+        // getHomeTimeline is an example endpoint.
+        client.getHomeTimeline(new JsonHttpResponseHandler() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG,"onSuccess");
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    adapter.clear();
+                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    adapter.addAll(tweets);
+                } catch (JSONException e) {
+                    Log.e(TAG, "JSON Exception", e);
+                }
+                Log.d(TAG, "tweets: " + tweets.toString());
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "Fetch timeline error: " + response, throwable);
+            }
+        });
     }
 
     private void populateHomeTimeLine() {
