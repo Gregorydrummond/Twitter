@@ -26,9 +26,9 @@ public class Tweet {
 
     public String body;
     public String createdAt;
+    public String imageURL;
     public User user;
     public String relativeTimeAgo;
-
 
     public Tweet() {}
 
@@ -39,6 +39,15 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.relativeTimeAgo = Tweet.getRelativeTimeAgo(tweet.createdAt);
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        if(jsonObject.getJSONObject("entities").has("media")) {
+            JSONArray media = jsonObject.getJSONObject("entities").getJSONArray("media");
+            Log.d(TAG, media.toString());
+            tweet.imageURL = media.getJSONObject(0).getString("media_url_https");
+        }
+        else {
+            tweet.imageURL = "";
+        }
         return tweet;
     }
 

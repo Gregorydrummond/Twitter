@@ -30,6 +30,7 @@
         android:layout_below="@+id/tvScreenName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         tools:text="I picked the wrong major to be lazy in Smiling face with tear" />
 
@@ -44,4 +45,14 @@
         android:textColor="#838383"
         android:textSize="14sp"
         tools:text="10m" />
+
+    <ImageView
+        android:id="@+id/ivTweetImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTweetBody"
+        android:layout_alignStart="@+id/tvTweetBody"
+        android:layout_alignEnd="@+id/tvTweetBody"
+        android:layout_marginTop="10dp"
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
