@@ -137,15 +137,6 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-//    //Log out button
-//    public void onLogoutButtonClick(View view) {
-//        //forget who's logged in
-//        client.clearAccessToken();
-//
-//        // navigate backwards to Login screen
-//        finish();
-//    }
-
     //Inflate menu for action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

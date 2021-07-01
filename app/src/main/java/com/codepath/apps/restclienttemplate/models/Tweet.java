@@ -29,6 +29,9 @@ public class Tweet {
     public String imageURL;
     public User user;
     public String relativeTimeAgo;
+    public long tweetID;
+    public boolean isLiked;
+    public boolean isRetweeted;
 
     public Tweet() {}
 
@@ -39,10 +42,14 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.relativeTimeAgo = Tweet.getRelativeTimeAgo(tweet.createdAt);
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.tweetID = jsonObject.getLong("id");
+        tweet.isLiked = jsonObject.getBoolean("favorited");
+        tweet.isRetweeted = jsonObject.getBoolean("retweeted");
+        //Log.d(TAG, "ID: " + tweet.tweetID);
 
         if(jsonObject.getJSONObject("entities").has("media")) {
             JSONArray media = jsonObject.getJSONObject("entities").getJSONArray("media");
-            Log.d(TAG, media.toString());
+            //Log.d(TAG, media.toString());
             tweet.imageURL = media.getJSONObject(0).getString("media_url_https");
         }
         else {

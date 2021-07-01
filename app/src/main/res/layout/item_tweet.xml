@@ -79,5 +79,35 @@
         android:textColor="#FFFFFF"
         tools:text="Greg" />
 
+    <ImageView
+        android:id="@+id/ivLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivTweetImage"
+        android:layout_alignStart="@+id/tvTweetBody"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvTweetBody"
+        android:layout_alignTop="@+id/ivLike"
+        android:layout_marginStart="125dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageView
+        android:id="@+id/ivComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvTweetBody"
+        android:layout_alignTop="@+id/ivRetweet"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_vector_messages_stroke" />
+
 
 </RelativeLayout>
