@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
@@ -74,6 +74,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         ImageView ivProfileImage;
         ImageView ivTweetImage;
+        TextView tvName;
         TextView tvScreenName;
         TextView tvTweetBody;
         TextView tvTimeAgo;
@@ -82,6 +83,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvName = itemView.findViewById(R.id.tvName);
             tvTweetBody = itemView.findViewById(R.id.tvTweetBody);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
             ivTweetImage = itemView.findViewById(R.id.ivTweetImage);
@@ -89,11 +91,22 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public void bind(Tweet tweet) {
             tvTweetBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText("@" + tweet.user.screenName);
+            tvName.setText(tweet.user.name);
             tvTimeAgo.setText(tweet.relativeTimeAgo);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
-            if(!tweet.imageURL.isEmpty()) {
-                Glide.with(context).load(tweet.imageURL).into(ivTweetImage);
+            Glide.with(context)
+                    .load(tweet.user.profileImageUrl)
+                    .transform(new CircleCrop())
+                    .into(ivProfileImage);
+            if(tweet.imageURL != null) {
+                Glide.with(context)
+                        .load(tweet.imageURL)
+//                        .override(900, 1400)
+                        .into(ivTweetImage);
+            }
+            else {
+                ivTweetImage.setMinimumWidth(0);
+                ivTweetImage.setMinimumHeight(0);
             }
         }
     }

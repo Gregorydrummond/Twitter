@@ -3,7 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#1C1E21"
+    android:layout_marginBottom="5dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="#595959" />
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -11,16 +19,20 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tvName"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#838383"
         tools:text="Greg_90210" />
 
     <TextView
@@ -28,31 +40,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="5dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_alignStart="@+id/tvName"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:textColor="#FFFFFF"
         tools:text="I picked the wrong major to be lazy in Smiling face with tear" />
 
     <TextView
         android:id="@+id/tvTimeAgo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_alignEnd="@+id/tvTweetBody"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/tvScreenName"
+        android:singleLine="true"
         android:textColor="#838383"
         android:textSize="14sp"
         tools:text="10m" />
 
     <ImageView
         android:id="@+id/ivTweetImage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTweetBody"
         android:layout_alignStart="@+id/tvTweetBody"
         android:layout_alignEnd="@+id/tvTweetBody"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:textColor="#FFFFFF"
+        tools:text="Greg" />
+
+
 </RelativeLayout>

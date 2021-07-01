@@ -46,7 +46,7 @@ public class Tweet {
             tweet.imageURL = media.getJSONObject(0).getString("media_url_https");
         }
         else {
-            tweet.imageURL = "";
+            tweet.imageURL = null;
         }
         return tweet;
     }

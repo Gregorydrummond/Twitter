@@ -137,14 +137,14 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    //Log out button
-    public void onLogoutButtonClick(View view) {
-        //forget who's logged in
-        client.clearAccessToken();
-
-        // navigate backwards to Login screen
-        finish();
-    }
+//    //Log out button
+//    public void onLogoutButtonClick(View view) {
+//        //forget who's logged in
+//        client.clearAccessToken();
+//
+//        // navigate backwards to Login screen
+//        finish();
+//    }
 
     //Inflate menu for action bar
     @Override
@@ -155,19 +155,26 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-    //Item in menu clicked. Start Compose Activity
+    //Item in menu clicked.
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.compose) {
-            //Compose icon has been selected
-            //Log.i(TAG, "Compose item clicked");
-
-            //Go to Compose Activity
-            Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.logout:
+                //forget who's logged in
+                client.clearAccessToken();
+                // navigate backwards to Login screen
+                finish();
+                break;
+            case R.id.compose:
+                //Compose icon has been selected. Go to Compose Activity
+                Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+                break;
+            default:
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     //Timeline Activity gets back data from startActivityForResult call
